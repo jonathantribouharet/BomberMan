@@ -24,4 +24,8 @@ void GameEngine::process(){
 	}
 	
 	context.actionContext.switchActionsQueue();
+
+	if(context.componentContext.bombermans.components.size() == 1){
+		context.setRunning(false);
+	}
 }

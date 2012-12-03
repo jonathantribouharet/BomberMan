@@ -17,7 +17,15 @@ void createControlForPlayers(std::vector<InputComponent::KeyboardConfig> &inputs
 	config_player_1[InputComponent::GO_RIGHT] = SDLK_RIGHT;
 	config_player_1[InputComponent::PLANT_BOMB] = SDLK_SPACE;
 	
+	InputComponent::KeyboardConfig config_player_2;
+	config_player_2[InputComponent::GO_UP] = SDLK_w;
+	config_player_2[InputComponent::GO_DOWN] = SDLK_s;
+	config_player_2[InputComponent::GO_LEFT] = SDLK_a;
+	config_player_2[InputComponent::GO_RIGHT] = SDLK_d;
+	config_player_2[InputComponent::PLANT_BOMB] = SDLK_e;
+
 	inputs.push_back(config_player_1);
+	inputs.push_back(config_player_2);
 }
 
 int main(int argc, char *argv[]){

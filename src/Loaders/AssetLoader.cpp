@@ -39,19 +39,34 @@ AssetLoader::AssetLoader(){
 	surfaces.insert(make_pair(BONUS_DECREASE_BOMBS_SCOPE, loadImageFromFile("data/images/bonus/decrease_scope.png", true)));
 	surfaces.insert(make_pair(BONUS_INCREASE_SPEED, loadImageFromFile("data/images/bonus/increase_speed.png", true)));
 	surfaces.insert(make_pair(BONUS_DECREASE_SPEED, loadImageFromFile("data/images/bonus/decrease_speed.png", true)));
+
+	surfaces.insert(make_pair(PANEL, loadImageFromFile("data/images/panel.png", true)));
+
+	font = TTF_OpenFont("data/font.ttf", 15);
+
+	if(!font){
+		throw("Cannot load data/menu_font.ttf");
+	}
 }
 
 AssetLoader::~AssetLoader(){
 	for(map<Surface, SDL_Surface *>::const_iterator it = surfaces.begin(); it != surfaces.end(); ++it){
 		SDL_FreeSurface(it->second);
 	}
+	TTF_CloseFont(font);
 }
 
-SDL_Surface * AssetLoader::getSurface(Surface key){
+SDL_Surface *AssetLoader::getSurface(Surface key){
 	return surfaces[key];
 }
 
-SDL_Surface * AssetLoader::loadImageFromFile(const string & path, bool isTransparent){
+SDL_Surface *AssetLoader::getSurfaceFromText(const std::string & text){
+    SDL_Color fontcolor = {0, 0, 0};
+    SDL_Surface *surface = TTF_RenderText_Solid(font, text.c_str(), fontcolor);	
+	return surface;
+}
+
+SDL_Surface *AssetLoader::loadImageFromFile(const string & path, bool isTransparent){
 	SDL_Surface *surface = IMG_Load(path.c_str());
 	
 	if(surface == NULL){

@@ -12,8 +12,8 @@ class Blast : public EntityComponent{
 		unsigned int getScope() const;
 	
 	private:
-		EntityId bomberman_id;
-		unsigned int scope;
+		const EntityId bomberman_id;
+		const unsigned int scope;
 };
 
 #endif

@@ -9,6 +9,7 @@
 
 #include "RenderComponent.h"
 #include "InputComponent.h"
+#include "PanelComponent.h"
 
 #include "Blast.h"
 #include "Bomb.h"
@@ -25,6 +26,7 @@ class ComponentContext{
 		SystemComponent<EntityComponent> components;	
 		SystemComponent<InputComponent> input_components;
 		SystemComponent<RenderComponent> render_components;
+		SystemComponent<PanelComponent> panel_components;
 
 		SystemComponent<RenderComponent> collisionables;
 
@@ -43,6 +45,8 @@ class ComponentContext{
 
 		void removeComponent(const EntityComponent::EntityId &);
 		bool componentExist(const EntityComponent::EntityId &);
+	
+		void updatePanel(const EntityComponent::EntityId &);
 	
 		std::vector<EntityComponent::EntityId> createBlast(const Position &, const EntityComponent::EntityId &, unsigned int);
 		void createWall(const Position &, bool);

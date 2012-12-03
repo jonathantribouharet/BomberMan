@@ -5,6 +5,7 @@
 #include <string>
 
 #include "SDL.h"
+#include "SDL_ttf.h"
 #include "Util.h"
 
 /*******WARNING*******
@@ -37,17 +38,21 @@ class AssetLoader{
 			BONUS_INCREASE_BOMBS_SCOPE,
 			BONUS_DECREASE_BOMBS_SCOPE,
 			BONUS_INCREASE_SPEED,
-			BONUS_DECREASE_SPEED
+			BONUS_DECREASE_SPEED,
+
+			PANEL
 		};
 	
-		static AssetLoader & getInstance();
-		
-		SDL_Surface * getSurface(Surface);
+		static AssetLoader &getInstance();
+
+		SDL_Surface *getSurface(Surface);
+		SDL_Surface *getSurfaceFromText(const std::string &);
 	
 	private:
 		DISALLOW_COPY_AND_ASSIGN(AssetLoader)
 
 		std::map<Surface, SDL_Surface *> surfaces;
+		TTF_Font *font;
 	
 		AssetLoader();
 		~AssetLoader();

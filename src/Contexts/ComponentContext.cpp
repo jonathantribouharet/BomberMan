@@ -56,6 +56,7 @@ ComponentContext::~ComponentContext(){
 	deleteSystem(components);
 	deleteSystem(render_components);
 	deleteSystem(input_components);
+	deleteSystem(panel_components);
 }
 
 float ComponentContext::getSpeed() const{
@@ -71,6 +72,8 @@ void ComponentContext::removeComponent(const EntityComponent::EntityId &id){
 	deleteComponent(render_components, id);
 	deleteComponent(input_components, id);
 	
+	// deleteComponent(panel_components, id);, panel always dislpay even if bomberman is dead
+
 	collisionables.components.erase(id);
 
 	blasts.components.erase(id);
@@ -83,6 +86,13 @@ void ComponentContext::removeComponent(const EntityComponent::EntityId &id){
 
 bool ComponentContext::componentExist(const EntityComponent::EntityId &id){
 	return components.components.find(id) != components.components.end();
+}
+
+void ComponentContext::updatePanel(const EntityComponent::EntityId &id){
+	PanelComponent *panel = panel_components.components[id];
+	Bomberman *bomberman = bombermans.components[id];
+
+	panel->updateValues(bomberman->getBombs(), bomberman->getBombsCapacity(), bomberman->getBombsScope(), bomberman->getSpeed());
 }
 
 vector<EntityComponent::EntityId> ComponentContext::createBlast(const Position &position, const EntityComponent::EntityId &bomberman_id, unsigned int scope){
@@ -153,11 +163,14 @@ void ComponentContext::createBomberman(const Position &position, InputComponent:
 	collisionables.components[last_id] = render_components.components[last_id];
 	components.components[last_id] = bombermans.components[last_id];
 	
-	last_id++;		
+	panel_components.components[last_id] = new PanelComponent(last_id, bombermans.components.size() - 1);
+	updatePanel(last_id);
+
+	last_id++;
 }
 
-void ComponentContext::createBonus(const Position & position, Bonus::BonusType type){
-	SDL_Surface *sprite;
+void ComponentContext::createBonus(const Position &position, Bonus::BonusType type){
+	SDL_Surface *sprite = NULL;
 	switch(type){
 		case Bonus::RANDOM:
 			sprite = AssetLoader::getInstance().getSurface(AssetLoader::BONUS_RANDOM);
@@ -190,7 +203,7 @@ void ComponentContext::createBonus(const Position & position, Bonus::BonusType t
 	last_id++;		
 }
 
-void ComponentContext::createFloor(const Position & position){
+void ComponentContext::createFloor(const Position &position){
 	floors.components[last_id] = new Floor(last_id);
 	render_components.components[last_id] = new RenderComponent(last_id, position, AssetLoader::getInstance().getSurface(AssetLoader::FLOOR));
 	components.components[last_id] = floors.components[last_id];

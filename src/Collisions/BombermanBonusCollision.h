@@ -37,6 +37,7 @@ class BombermanBonusCollision : public Collision{
 					break;
 			}
 			
+			context.updatePanel(bomberman.getId());
 			context.removeComponent(bonus.getId());
 			return true;
 		}

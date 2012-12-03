@@ -25,6 +25,7 @@ bool ExploseBombAction::process(){
 		SystemComponent<Bomberman>::Components::iterator it_bomberman = context.componentContext.bombermans.components.find(it->second->getBombermanId());
 		if(it_bomberman != context.componentContext.bombermans.components.end()){
 			it_bomberman->second->increaseBombs();
+			context.componentContext.updatePanel(it_bomberman->first);
 		}
 
 		context.componentContext.removeComponent(bomb_id);

@@ -5,6 +5,7 @@
 
 #include "Engine.h"
 #include "SystemComponent.h"
+#include "PanelComponent.h"
 
 class GraphicEngine : public Engine{
 	
@@ -18,10 +19,15 @@ class GraphicEngine : public Engine{
 		SDL_Surface *screen;
 		Uint32 last_refresh;
 
+		void synchronize();
+
 		struct renderObject;
+		struct renderPanel;
 
 		template<class SystemComponent>
 		void renderSystem(const SystemComponent &);
+
+		void renderSystem(const SystemComponent<PanelComponent> &);
 };
 
 #endif

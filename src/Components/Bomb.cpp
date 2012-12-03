@@ -3,12 +3,12 @@
 Bomb::Bomb(const EntityId &id, const EntityId &_bomberman_id, unsigned int _scope)
 :EntityComponent(id),
 bomberman_id(_bomberman_id),
+scope(_scope),
 manual_explode(false),
-created_at(SDL_GetTicks()),
-scope(_scope){
+created_at(SDL_GetTicks()){
 }
 
-Bomb::EntityId Bomb::getBombermanId() const{
+EntityComponent::EntityId Bomb::getBombermanId() const{
 	return bomberman_id;
 }
 

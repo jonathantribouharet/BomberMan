@@ -6,7 +6,7 @@ bomberman_id(_bomberman_id),
 scope(_scope){
 }
 
-Blast::EntityId Blast::getBomberanId() const{
+EntityComponent::EntityId Blast::getBomberanId() const{
 	return bomberman_id;
 }
 

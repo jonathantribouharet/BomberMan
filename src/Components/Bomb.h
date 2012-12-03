@@ -17,10 +17,11 @@ class Bomb : public EntityComponent{
 		void setExploded();
 	
 	private:
-		EntityId bomberman_id;		
+		const EntityId bomberman_id;
+		const unsigned int scope;
+		
 		bool manual_explode;
 		Uint32 created_at;
-		unsigned int scope;
 };
 
 #endif

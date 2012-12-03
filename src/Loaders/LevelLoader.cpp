@@ -9,7 +9,7 @@ using namespace std;
 
 #define MAP_COMPONENT_SIZE 40
 
-void LevelLoader::load(const string &path, ComponentContext &context, vector<InputComponent::KeyboardConfig> & inputs){
+void LevelLoader::load(const string &path, ComponentContext &context, vector<InputComponent::KeyboardConfig> &inputs){
 	unsigned int current_number_players = 0;
 	ifstream file(path.c_str());
 	
@@ -23,21 +23,23 @@ void LevelLoader::load(const string &path, ComponentContext &context, vector<Inp
 	
 	while(getline(file, line)){
 		current_line++;
-		for(unsigned int index = 0; index != line.size(); ++index){
+		for(unsigned int index = 0; index < line.size(); ++index){
 			const char symbol = line[index];
 			
-			context.createFloor(Position((current_line - 1) * MAP_COMPONENT_SIZE, index * MAP_COMPONENT_SIZE));
+			Position current_position = Position(index * MAP_COMPONENT_SIZE, (current_line - 1) * MAP_COMPONENT_SIZE);
+
+			context.createFloor(current_position);
 			
 			switch(symbol){
 				case WALL_DESTRUCTIBLE:
-					context.createWall(Position((current_line - 1) * MAP_COMPONENT_SIZE, index * MAP_COMPONENT_SIZE), true);
+					context.createWall(current_position, true);
 					break;
 				case WALL_INDESTRUCTIBLE:
-					context.createWall(Position((current_line - 1) * MAP_COMPONENT_SIZE, index * MAP_COMPONENT_SIZE), false);
+					context.createWall(current_position, false);
 					break;				
 				case BOMBERMAN:
 					if(current_number_players < inputs.size()){
-						context.createBomberman(Position((current_line - 1) * MAP_COMPONENT_SIZE, index * MAP_COMPONENT_SIZE), inputs.at(current_number_players));
+						context.createBomberman(current_position, inputs.at(current_number_players));
 						current_number_players++;
 					}
 					break;				

@@ -42,6 +42,7 @@ bool PlantBombAction::process(){
 	EntityComponent::EntityId bomb_id = context.componentContext.createBomb(position, it_bomberman->first);
 	context.actionContext.pushAction(new ExploseBombAction(context, bomb_id));
 	context.componentContext.bombermans.components[it_bomberman->first]->decreaseBombs();
-	
+	context.componentContext.updatePanel(it_bomberman->first);
+
 	return true;
 }
