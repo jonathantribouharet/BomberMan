@@ -3,13 +3,15 @@
 
 #include "ComponentContext.h"
 
+#include "ExceptionLoader.h"
+
 #include <vector>
 #include <string>
 
 class LevelLoader{
 	
 	public:
-		static void load(const std::string &, ComponentContext &, std::vector<InputComponent::KeyboardConfig> &);
+		static void load(const std::string &, ComponentContext &, std::vector<InputComponent::KeyboardConfig> &) throw(ExceptionLoader);
 	
 	private:
 		enum MapSymbol{

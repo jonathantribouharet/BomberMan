@@ -7,6 +7,7 @@
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include "Util.h"
+#include "ExceptionLoader.h"
 
 /*******WARNING*******
 Must be call after init SDL for use SDL_DisplayFormat function
@@ -54,9 +55,9 @@ class AssetLoader{
 		std::map<Surface, SDL_Surface *> surfaces;
 		TTF_Font *font;
 	
-		AssetLoader();
+		AssetLoader() throw(ExceptionLoader);
 		~AssetLoader();
-		SDL_Surface *loadImageFromFile(const std::string &, bool);
+		SDL_Surface *loadImageFromFile(const std::string &, bool) throw(ExceptionLoader);
 };
 
 #endif

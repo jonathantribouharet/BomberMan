@@ -15,7 +15,7 @@ AssetLoader &AssetLoader::getInstance(){
 	return *instance;
 }
 
-AssetLoader::AssetLoader(){
+AssetLoader::AssetLoader() throw(ExceptionLoader){
 	surfaces.insert(make_pair(BLAST_UP, loadImageFromFile("data/images/blast/blast-up.png", true)));
 	surfaces.insert(make_pair(BLAST_DOWN, loadImageFromFile("data/images/blast/blast-down.png", true)));
 	surfaces.insert(make_pair(BLAST_LEFT, loadImageFromFile("data/images/blast/blast-left.png", true)));
@@ -45,7 +45,7 @@ AssetLoader::AssetLoader(){
 	font = TTF_OpenFont("data/font.ttf", 15);
 
 	if(!font){
-		throw("Cannot load data/menu_font.ttf");
+		throw ExceptionLoader("Cannot load data/menu_font.ttf");
 	}
 }
 
@@ -66,12 +66,11 @@ SDL_Surface *AssetLoader::getSurfaceFromText(const std::string & text){
 	return surface;
 }
 
-SDL_Surface *AssetLoader::loadImageFromFile(const string & path, bool isTransparent){
+SDL_Surface *AssetLoader::loadImageFromFile(const string & path, bool isTransparent) throw(ExceptionLoader){
 	SDL_Surface *surface = IMG_Load(path.c_str());
 	
 	if(surface == NULL){
-		cerr << "Cannot load file: " << path << endl;
-		throw;
+		throw ExceptionLoader("Cannot load file: " + path);
 	}
 		
 	if(isTransparent){

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cstdlib>
 #include <vector>
 
@@ -33,14 +34,18 @@ int main(int argc, char *argv[]){
 	createControlForPlayers(inputs);
 
 	GameContext context;
-
 	vector<Engine *> engines;
 
-	engines.push_back(new InputEngine(context));
-	engines.push_back(new GameEngine(context));
-	engines.push_back(new GraphicEngine(context));
+	try{
+		engines.push_back(new InputEngine(context));
+		engines.push_back(new GameEngine(context));
+		engines.push_back(new GraphicEngine(context));
 
-	LevelLoader::load("data/levels/1.map", context.componentContext, inputs);
+		LevelLoader::load("data/levels/1.map", context.componentContext, inputs);
+	}catch(ExceptionLoader e){
+		std::cerr << e.what();
+		return EXIT_FAILURE;
+	}
 
 	while (context.isRunning()){
 		for(vector<Engine *>::const_iterator it = engines.begin(); it != engines.end(); ++it){

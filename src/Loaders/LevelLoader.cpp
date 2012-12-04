@@ -1,21 +1,20 @@
 #include "LevelLoader.h"
 
 #include "Position.h"
+#include "Convert.h"
 
-#include <iostream>
 #include <fstream>
 
 using namespace std;
 
 #define MAP_COMPONENT_SIZE 40
 
-void LevelLoader::load(const string &path, ComponentContext &context, vector<InputComponent::KeyboardConfig> &inputs){
+void LevelLoader::load(const string &path, ComponentContext &context, vector<InputComponent::KeyboardConfig> &inputs) throw(ExceptionLoader){
 	unsigned int current_number_players = 0;
 	ifstream file(path.c_str());
 	
 	if(!file){
-		cerr << "Cannot open file : " + path << endl;
-		throw;
+		throw ExceptionLoader("Cannot open file : " + path);
 	}
 	
 	string line;
@@ -46,14 +45,12 @@ void LevelLoader::load(const string &path, ComponentContext &context, vector<Inp
 				case FLOOR:
 					break;
 				default:
-					cerr << "Malformated file, bad symbol line " << current_line << ": " << index << endl;
-					throw;
+					throw ExceptionLoader("Malformated file, bad symbol line " + toString(current_line) + ": " + toString(index));
 			}
 		}
 	}
 	
 	if(current_number_players == 0){
-		cerr << "No bomberman in map" << endl;
-		throw;
+		throw ExceptionLoader("No bomberman in map");
 	}
 }

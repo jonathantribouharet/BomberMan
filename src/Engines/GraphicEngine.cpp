@@ -5,21 +5,21 @@
 
 using std::for_each;
 
-GraphicEngine::GraphicEngine(GameContext &context)
+GraphicEngine::GraphicEngine(GameContext &context) throw(ExceptionLoader)
 :Engine(context){
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_DOUBLEBUF) == -1){
-		throw("SDL_Init failed");
+		throw ExceptionLoader("SDL_Init failed");
 	}
 
 	SDL_EnableUNICODE(1);
 
 	if(TTF_Init() == -1){
-		throw("TTF_Init failed");
+		throw ExceptionLoader("TTF_Init failed");
 	}
 		
 	screen = SDL_SetVideoMode(800, 600, 32, SDL_SWSURFACE);
 	if(!screen){
-		throw("SDL_SetVideoMode failed");
+		throw ExceptionLoader("SDL_SetVideoMode failed");
 	}
 	
 	SDL_WM_SetCaption("BomberMan", "BomberMan");

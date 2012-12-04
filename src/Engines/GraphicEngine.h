@@ -6,11 +6,12 @@
 #include "Engine.h"
 #include "SystemComponent.h"
 #include "PanelComponent.h"
+#include "ExceptionLoader.h"
 
 class GraphicEngine : public Engine{
 	
 	public:	
-		GraphicEngine(GameContext &);
+		GraphicEngine(GameContext &) throw(ExceptionLoader);
 		virtual ~GraphicEngine();
 	
 		virtual void process();
