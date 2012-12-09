@@ -3,47 +3,50 @@
 
 #include "Collision.h"
 
+#include "PlaySoundAction.h"
+
 class BombermanBonusCollision : public Collision{
 	
 	public:
-		BombermanBonusCollision(ComponentContext &_context)
+		BombermanBonusCollision(GameContext &_context)
 		:context(_context){
 		}		
 			
 		virtual bool operator()(EntityComponent &bomberman, EntityComponent &bonus){
-			switch(context.bonuses.components[bonus.getId()]->getType()){
+			switch(context.componentContext.bonuses.components[bonus.getId()]->getType()){
 				case Bonus::INCREASE_SPEED:
-					context.bombermans.components[bomberman.getId()]->increaseSpeed();
-					context.render_components.components[bomberman.getId()]->setSpeed(context.bombermans.components[bomberman.getId()]->getSpeed());
+					context.componentContext.bombermans.components[bomberman.getId()]->increaseSpeed();
+					context.componentContext.render_components.components[bomberman.getId()]->setSpeed(context.componentContext.bombermans.components[bomberman.getId()]->getSpeed());
 					break;
 				case Bonus::DECREASE_SPEED:
-					context.bombermans.components[bomberman.getId()]->decreaseSpeed();
-					context.render_components.components[bomberman.getId()]->setSpeed(context.bombermans.components[bomberman.getId()]->getSpeed());
+					context.componentContext.bombermans.components[bomberman.getId()]->decreaseSpeed();
+					context.componentContext.render_components.components[bomberman.getId()]->setSpeed(context.componentContext.bombermans.components[bomberman.getId()]->getSpeed());
 					break;
 				case Bonus::INCREASE_BOMBS_CAPACITY:
-					context.bombermans.components[bomberman.getId()]->increaseBombsCapacity();
-					context.bombermans.components[bomberman.getId()]->increaseBombs();
+					context.componentContext.bombermans.components[bomberman.getId()]->increaseBombsCapacity();
+					context.componentContext.bombermans.components[bomberman.getId()]->increaseBombs();
 					break;
 				case Bonus::DECREASE_BOMBS_CAPACITY:
-					context.bombermans.components[bomberman.getId()]->decreaseBombsCapacity();
+					context.componentContext.bombermans.components[bomberman.getId()]->decreaseBombsCapacity();
 					break;
 				case Bonus::INCREASE_BOMBS_SCOPE:
-					context.bombermans.components[bomberman.getId()]->increaseBombsScope();
+					context.componentContext.bombermans.components[bomberman.getId()]->increaseBombsScope();
 					break;
 				case Bonus::DECREASE_BOMBS_SCOPE:
-					context.bombermans.components[bomberman.getId()]->decreaseBombsScope();
+					context.componentContext.bombermans.components[bomberman.getId()]->decreaseBombsScope();
 					break;
 				default:
 					break;
 			}
 			
-			context.updatePanel(bomberman.getId());
-			context.removeComponent(bonus.getId());
+			context.actionContext.pushAction(new PlaySoundAction(AssetLoader::BONUS));
+			context.componentContext.updatePanel(bomberman.getId());
+			context.componentContext.removeComponent(bonus.getId());
 			return true;
 		}
 		
 	private:
-		ComponentContext &context;
+		GameContext &context;
 };
 
 #endif

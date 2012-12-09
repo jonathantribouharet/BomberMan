@@ -42,6 +42,10 @@ AssetLoader::AssetLoader() throw(ExceptionLoader){
 
 	surfaces.insert(make_pair(PANEL, loadImageFromFile("data/images/panel.png", true)));
 
+	sounds.insert(make_pair(BOMB_EXPLODE, Mix_LoadWAV("data/sounds/bomb.wav")));
+	sounds.insert(make_pair(BONUS, Mix_LoadWAV("data/sounds/bonus.wav")));
+
+
 	font = TTF_OpenFont("data/font.ttf", 15);
 
 	if(!font){
@@ -52,6 +56,9 @@ AssetLoader::AssetLoader() throw(ExceptionLoader){
 AssetLoader::~AssetLoader(){
 	for(map<Surface, SDL_Surface *>::const_iterator it = surfaces.begin(); it != surfaces.end(); ++it){
 		SDL_FreeSurface(it->second);
+	}
+	for(map<Sound, Mix_Chunk *>::const_iterator it = sounds.begin(); it != sounds.end(); ++it){
+		Mix_FreeChunk(it->second);
 	}
 	TTF_CloseFont(font);
 }
@@ -83,4 +90,8 @@ SDL_Surface *AssetLoader::loadImageFromFile(const string & path, bool isTranspar
 	}
 		
 	return surface;	
+}
+
+Mix_Chunk *AssetLoader::getSound(Sound key){
+	return sounds[key];
 }

@@ -6,14 +6,6 @@
 #include "KeyboardInputComponent.h"
 #include "LinearInputComponent.h"
 
-#include "GenericBlockCollision.h"
-#include "GenericDestroyCollision.h"
-#include "BlastBlockCollision.h"
-#include "BlastBombCollision.h"
-#include "BombermanBlastCollision.h"
-#include "BombermanBombCollision.h"
-#include "BombermanBonusCollision.h"
-
 using namespace std;
 
 struct ComponentContext::deleteObject{
@@ -40,16 +32,7 @@ void ComponentContext::deleteComponent(SystemComponent &system, const EntityComp
 
 ComponentContext::ComponentContext()
 :speed(1),
-last_id(0){
-	collider.registerCollision<Bomberman, Wall>(new GenericBlockCollision());
-	collider.registerCollision<Bomberman, Bomb>(new BombermanBombCollision(*this));
-	collider.registerCollision<Bomberman, Blast>(new BombermanBlastCollision(*this));
-	collider.registerCollision<Bomberman, Bonus>(new BombermanBonusCollision(*this));
-	
-	collider.registerCollision<Blast, Wall>(new BlastBlockCollision(*this));
-	collider.registerCollision<Blast, Bomb>(new BlastBombCollision(*this));
-	collider.registerCollision<Blast, Bomberman>(new BombermanBlastCollision(*this));
-	collider.registerCollision<Blast, Bonus>(new GenericDestroyCollision(*this));	
+last_id(0){	
 }
 
 ComponentContext::~ComponentContext(){

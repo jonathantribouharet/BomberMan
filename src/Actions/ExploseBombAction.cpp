@@ -1,5 +1,6 @@
 #include "ExploseBombAction.h"
 #include "CheckScopeBlastAction.h"
+#include "PlaySoundAction.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ bool ExploseBombAction::process(){
 
 		for(unsigned int i = 0; i < ids.size(); ++i){
 			context.actionContext.pushAction(new CheckScopeBlastAction(context.componentContext, ids[i]));
+			context.actionContext.pushAction(new PlaySoundAction(AssetLoader::BOMB_EXPLODE));
 		}
 
 		SystemComponent<Bomberman>::Components::iterator it_bomberman = context.componentContext.bombermans.components.find(it->second->getBombermanId());

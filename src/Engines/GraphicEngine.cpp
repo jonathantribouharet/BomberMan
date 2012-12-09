@@ -1,13 +1,15 @@
 #include "GraphicEngine.h"
 
 #include "SDL_ttf.h"
+#include "SDL_mixer.h"
 #include <algorithm>
 
 using std::for_each;
 
 GraphicEngine::GraphicEngine(GameContext &context) throw(ExceptionLoader)
 :Engine(context){
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_DOUBLEBUF) == -1){
+	//Initilaize SDL
+	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_DOUBLEBUF | SDL_INIT_AUDIO) == -1){
 		throw ExceptionLoader("SDL_Init failed");
 	}
 
@@ -24,12 +26,20 @@ GraphicEngine::GraphicEngine(GameContext &context) throw(ExceptionLoader)
 	
 	SDL_WM_SetCaption("BomberMan", "BomberMan");
 
+	if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1){
+		throw ExceptionLoader("Mix_OpenAudio failed");	
+	}
+
+	Mix_AllocateChannels(2);
+	Mix_Volume(-1, MIX_MAX_VOLUME / 2);
+
 	last_refresh = SDL_GetTicks();
 }
 
 GraphicEngine::~GraphicEngine(){
-	SDL_Quit();
+	Mix_CloseAudio();
 	TTF_Quit();
+	SDL_Quit();
 }
 
 void GraphicEngine::process(){

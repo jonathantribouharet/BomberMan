@@ -6,6 +6,8 @@
 
 #include "SDL.h"
 #include "SDL_ttf.h"
+#include "SDL_mixer.h"
+
 #include "Util.h"
 #include "ExceptionLoader.h"
 
@@ -44,15 +46,23 @@ class AssetLoader{
 			PANEL
 		};
 	
+		enum Sound {
+			BOMB_EXPLODE,
+			BONUS
+		};
+
 		static AssetLoader &getInstance();
 
 		SDL_Surface *getSurface(Surface);
 		SDL_Surface *getSurfaceFromText(const std::string &);
 	
+		Mix_Chunk *getSound(Sound);
+
 	private:
 		DISALLOW_COPY_AND_ASSIGN(AssetLoader)
 
 		std::map<Surface, SDL_Surface *> surfaces;
+		std::map<Sound, Mix_Chunk *> sounds;
 		TTF_Font *font;
 	
 		AssetLoader() throw(ExceptionLoader);

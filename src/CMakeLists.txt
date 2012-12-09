@@ -4,13 +4,15 @@ project("BomberMan")
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
 find_package(SDL_ttf REQUIRED)
+find_package(SDL_mixer REQUIRED)
 
 if(APPLE)
 	message(STATUS "Mac OS detected")
 
 	include_directories("/Library/Frameworks/SDL.framework/headers"
 						"/Library/Frameworks/SDL_image.framework/headers"
-					    "/Library/Frameworks/SDL_ttf.framework/headers")
+					    "/Library/Frameworks/SDL_ttf.framework/headers"
+					    "/Library/Frameworks/SDL_mixer.framework/headers")
 					    
 	file(GLOB_RECURSE sources *.cpp *.m)
 else()
@@ -42,4 +44,4 @@ include_directories(Loaders)
 include_directories(Utils)
 
 add_executable(${PROJECT_NAME} ${sources})
-target_link_libraries(${PROJECT_NAME} ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} ${SDLTTF_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} ${SDLTTF_LIBRARY} ${SDLMIXER_LIBRARY})
