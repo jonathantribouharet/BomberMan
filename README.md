@@ -12,6 +12,7 @@ libSDL_image => http://www.libsdl.org/projects/SDL_image/
 
 libSDL_ttf => http://www.libsdl.org/projects/SDL_ttf/
 
+libSDL_mixer => http://www.libsdl.org/projects/SDL_mixer/
 
 Tested on Linux and Mac OS
 
