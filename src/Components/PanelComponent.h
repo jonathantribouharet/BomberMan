@@ -1,30 +1,20 @@
 #ifndef _PANEL_COMPONENT_H_
 #define _PANEL_COMPONENT_H_
 
-#include "SDL.h"
+#include "RenderComponent.h"
 
-#include "EntityComponent.h"
-#include "Position.h"
-
-class PanelComponent : public EntityComponent{
+class PanelComponent : public RenderComponent{
 
 	public:
-		PanelComponent(const EntityId &, int);
+		PanelComponent(const EntityId &, int, const EntityId &);
 		virtual ~PanelComponent();
-
-		SDL_Surface *getSurface();
-		Position &getPosition();
-		SDL_Rect *getScreenPosition();
-	
+		
+		EntityId getBombermanId() const;
 		void updateValues(unsigned int, unsigned int, unsigned int, float);
 
 	private:
 		const int index;
-
-		Position position;
-		SDL_Rect sdl_position;
-
-		SDL_Surface *surface;
+		const EntityId bomberman_id;
 
 		SDL_Surface *surface_background;
 		SDL_Surface *surface_userame;

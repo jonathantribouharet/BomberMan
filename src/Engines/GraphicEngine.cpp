@@ -54,7 +54,7 @@ void GraphicEngine::process(){
 	renderSystem(context.componentContext.bombermans);
 	renderSystem(context.componentContext.blasts);	
 
-	renderSystem(context.componentContext.panel_components);
+	renderSystem(context.componentContext.panels);
 
 	SDL_Flip(screen);
 }
@@ -94,30 +94,7 @@ struct GraphicEngine::renderObject{
 		ComponentContext &context;
 };
 
-struct GraphicEngine::renderPanel{
-	
-	public:
-		renderPanel(SDL_Surface *_screen, ComponentContext &_context)
-		:screen(_screen),
-		context(_context){
-		}
-		
-		template<class Iterator>
-		void operator()(Iterator &iter){
-			PanelComponent *render = context.panel_components.components[iter.first];
-			SDL_BlitSurface(render->getSurface(), NULL, screen, render->getScreenPosition());
-		}
-	
-	private:
-		SDL_Surface *screen;
-		ComponentContext &context;
-};
-
 template<class SystemComponent>
 void GraphicEngine::renderSystem(const SystemComponent &system){
 	for_each(system.components.begin(), system.components.end(), renderObject(screen, context.componentContext));
-}
-
-void GraphicEngine::renderSystem(const SystemComponent<PanelComponent> &system){
-	for_each(system.components.begin(), system.components.end(), renderPanel(screen, context.componentContext));
 }

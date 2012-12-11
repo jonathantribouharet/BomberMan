@@ -1,8 +1,5 @@
 #include "MoveAction.h"
 
-#include <iostream>
-using namespace std;
-
 MoveAction::MoveAction(ComponentContext &_context, const EntityComponent::EntityId & _entityId, Position::Direction _direction)
 :context(_context),
 entityId(_entityId),
@@ -10,13 +7,13 @@ direction(_direction){
 }
 
 bool MoveAction::process(){
-	SystemComponent<RenderComponent>::Components::iterator it = context.render_components.components.find(entityId);
+	SystemComponent<MovableComponent>::Components::iterator it = context.movables.components.find(entityId);
 	
-	if(it == context.render_components.components.end()){
+	if(it == context.movables.components.end()){
 		return true;
 	}
 		
-	RenderComponent *render = it->second;
+	MovableComponent *render = it->second;
 	
 	render->setOrientation(direction);
 	render->getPosition().move(direction, render->getSpeed() / context.getSpeed());

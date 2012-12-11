@@ -5,7 +5,6 @@
 
 #include "Engine.h"
 #include "SystemComponent.h"
-#include "PanelComponent.h"
 #include "ExceptionLoader.h"
 
 class GraphicEngine : public Engine{
@@ -23,12 +22,9 @@ class GraphicEngine : public Engine{
 		void synchronize();
 
 		struct renderObject;
-		struct renderPanel;
 
 		template<class SystemComponent>
 		void renderSystem(const SystemComponent &);
-
-		void renderSystem(const SystemComponent<PanelComponent> &);
 };
 
 #endif

@@ -16,11 +16,11 @@ class BombermanBonusCollision : public Collision{
 			switch(context.componentContext.bonuses.components[bonus.getId()]->getType()){
 				case Bonus::INCREASE_SPEED:
 					context.componentContext.bombermans.components[bomberman.getId()]->increaseSpeed();
-					context.componentContext.render_components.components[bomberman.getId()]->setSpeed(context.componentContext.bombermans.components[bomberman.getId()]->getSpeed());
+					context.componentContext.movables.components[bomberman.getId()]->setSpeed(context.componentContext.bombermans.components[bomberman.getId()]->getSpeed());
 					break;
 				case Bonus::DECREASE_SPEED:
 					context.componentContext.bombermans.components[bomberman.getId()]->decreaseSpeed();
-					context.componentContext.render_components.components[bomberman.getId()]->setSpeed(context.componentContext.bombermans.components[bomberman.getId()]->getSpeed());
+					context.componentContext.movables.components[bomberman.getId()]->setSpeed(context.componentContext.bombermans.components[bomberman.getId()]->getSpeed());
 					break;
 				case Bonus::INCREASE_BOMBS_CAPACITY:
 					context.componentContext.bombermans.components[bomberman.getId()]->increaseBombsCapacity();

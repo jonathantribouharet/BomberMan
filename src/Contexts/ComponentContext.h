@@ -7,8 +7,8 @@
 #include "Collider.h"
 #include "SystemComponent.h"
 
-#include "RenderComponent.h"
 #include "InputComponent.h"
+#include "MovableComponent.h"
 #include "PanelComponent.h"
 
 #include "Blast.h"
@@ -26,9 +26,9 @@ class ComponentContext{
 		SystemComponent<EntityComponent> components;	
 		SystemComponent<InputComponent> input_components;
 		SystemComponent<RenderComponent> render_components;
-		SystemComponent<PanelComponent> panel_components;
 
 		SystemComponent<RenderComponent> collisionables;
+		SystemComponent<MovableComponent> movables;
 
 		SystemComponent<Blast> blasts;
 		SystemComponent<Bomberman> bombermans;
@@ -36,6 +36,8 @@ class ComponentContext{
 		SystemComponent<Bonus> bonuses;
 		SystemComponent<Floor> floors;
 		SystemComponent<Wall> walls;
+
+		SystemComponent<PanelComponent> panels;
 
 		ComponentContext();
 		~ComponentContext();

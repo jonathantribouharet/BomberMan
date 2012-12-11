@@ -5,18 +5,17 @@
 
 using std::string;
 
-PanelComponent::PanelComponent(const EntityId &id, int _index)
-:EntityComponent(id),
+PanelComponent::PanelComponent(const EntityId &id, int _index, const EntityId &_bomberman_id)
+:RenderComponent(id, Position(600, _index * 150), SDL_CreateRGBSurface(SDL_SWSURFACE, 200, 150, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF)),
 index(_index),
-position(Position(600, index * 150)){
-	surface = SDL_CreateRGBSurface(SDL_SWSURFACE, 200, 150,32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+bomberman_id(_bomberman_id){
 	surface_background = AssetLoader::getInstance().getSurface(AssetLoader::PANEL);
 	surface_userame = AssetLoader::getInstance().getSurfaceFromText(string("Player ") + toString(index + 1));
 
 	surface_bombs = AssetLoader::getInstance().getSurfaceFromText("");
 	surface_capacity = AssetLoader::getInstance().getSurfaceFromText("");
 	surface_scope = AssetLoader::getInstance().getSurfaceFromText("");
-	surface_speed = AssetLoader::getInstance().getSurfaceFromText("");    
+	surface_speed = AssetLoader::getInstance().getSurfaceFromText("");
 }
 
 PanelComponent::~PanelComponent(){
@@ -24,25 +23,14 @@ PanelComponent::~PanelComponent(){
 	clearSurfaces();
 }
 
-SDL_Surface *PanelComponent::getSurface(){
-	return surface;
-}
-
-Position &PanelComponent::getPosition(){
-	return position;
-}
-
-SDL_Rect *PanelComponent::getScreenPosition(){
-	sdl_position.x = position.getX();
-	sdl_position.y = position.getY();
-
-	return &sdl_position;
+EntityComponent::EntityId PanelComponent::getBombermanId() const{
+	return bomberman_id;
 }
 
 void PanelComponent::updateValues(unsigned int bombs, unsigned int capacity, unsigned int scope, float speed){
 	clearSurfaces();
 
-	surface = SDL_CreateRGBSurface(SDL_SWSURFACE, 200, 150,32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+	surface = SDL_CreateRGBSurface(SDL_SWSURFACE, 200, 150, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 
 	surface_userame = AssetLoader::getInstance().getSurfaceFromText(string("Player ") + toString(index + 1));
 	surface_bombs = AssetLoader::getInstance().getSurfaceFromText(string("bombs: ") + toString(bombs));

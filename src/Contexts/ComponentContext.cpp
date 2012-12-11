@@ -39,7 +39,6 @@ ComponentContext::~ComponentContext(){
 	deleteSystem(components);
 	deleteSystem(render_components);
 	deleteSystem(input_components);
-	deleteSystem(panel_components);
 }
 
 float ComponentContext::getSpeed() const{
@@ -55,9 +54,8 @@ void ComponentContext::removeComponent(const EntityComponent::EntityId &id){
 	deleteComponent(render_components, id);
 	deleteComponent(input_components, id);
 	
-	// deleteComponent(panel_components, id);, panel always dislpay even if bomberman is dead
-
 	collisionables.components.erase(id);
+	movables.components.erase(id);
 
 	blasts.components.erase(id);
 	bombs.components.erase(id);
@@ -65,6 +63,8 @@ void ComponentContext::removeComponent(const EntityComponent::EntityId &id){
 	bonuses.components.erase(id);
 	walls.components.erase(id);
 	floors.components.erase(id);
+
+	panels.components.erase(id);
 }
 
 bool ComponentContext::componentExist(const EntityComponent::EntityId &id){
@@ -72,10 +72,16 @@ bool ComponentContext::componentExist(const EntityComponent::EntityId &id){
 }
 
 void ComponentContext::updatePanel(const EntityComponent::EntityId &id){
-	PanelComponent *panel = panel_components.components[id];
-	Bomberman *bomberman = bombermans.components[id];
+	for(SystemComponent<PanelComponent>::Components::const_iterator it = panels.components.begin();
+		it != panels.components.end();
+		++it){
 
-	panel->updateValues(bomberman->getBombs(), bomberman->getBombsCapacity(), bomberman->getBombsScope(), bomberman->getSpeed());
+		if(it->second->getBombermanId() == id){
+			Bomberman *bomberman = bombermans.components[id];
+			it->second->updateValues(bomberman->getBombs(), bomberman->getBombsCapacity(), bomberman->getBombsScope(), bomberman->getSpeed());
+			break;
+		}
+	}
 }
 
 vector<EntityComponent::EntityId> ComponentContext::createBlast(const Position &position, const EntityComponent::EntityId &bomberman_id, unsigned int scope){
@@ -93,8 +99,10 @@ vector<EntityComponent::EntityId> ComponentContext::createBlast(const Position &
 	for(int index = 0; index < 4; index++){
 		blasts.components[last_id] = new Blast(last_id, bomberman_id, scope);
 		input_components.components[last_id] = new LinearInputComponent(last_id, actions[index]);
-		render_components.components[last_id] = new RenderComponent(last_id, position, surfaces, directions[index], 3.0);
-		collisionables.components[last_id] = render_components.components[last_id];
+		movables.components[last_id] = new MovableComponent(last_id, position, surfaces, directions[index], 3.0);
+
+		collisionables.components[last_id] = movables.components[last_id];
+		render_components.components[last_id] = movables.components[last_id];
 		components.components[last_id] = blasts.components[last_id];
 
 		ids.push_back(last_id);
@@ -141,13 +149,18 @@ void ComponentContext::createBomberman(const Position &position, InputComponent:
 	}
 
 	bombermans.components[last_id] = new Bomberman(last_id);
-	render_components.components[last_id] = new RenderComponent(last_id, position, surfaces, Position::RIGHT, bombermans.components[last_id]->getSpeed());
+	movables.components[last_id] = new MovableComponent(last_id, position, surfaces, Position::RIGHT, bombermans.components[last_id]->getSpeed());
 	input_components.components[last_id] = new KeyboardInputComponent(last_id, keyboardConfig);	
-	collisionables.components[last_id] = render_components.components[last_id];
+
+	collisionables.components[last_id] = movables.components[last_id];
+	render_components.components[last_id] = movables.components[last_id];
 	components.components[last_id] = bombermans.components[last_id];
 	
-	panel_components.components[last_id] = new PanelComponent(last_id, bombermans.components.size() - 1);
-	updatePanel(last_id);
+	last_id++;
+
+	panels.components[last_id] = new PanelComponent(last_id, bombermans.components.size() - 1, last_id - 1);
+	render_components.components[last_id] = panels.components[last_id];
+	updatePanel(last_id - 1);
 
 	last_id++;
 }
