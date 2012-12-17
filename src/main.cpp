@@ -47,14 +47,14 @@ int main(int argc, char *argv[]){
 		return EXIT_FAILURE;
 	}
 
-	while (context.isRunning()){
+	while(context.isRunning()){
 		for(vector<Engine *>::const_iterator it = engines.begin(); it != engines.end(); ++it){
 			(*it)->process();
 		}		
 	}
 
 	for(vector<Engine *>::const_iterator it = engines.begin(); it != engines.end(); ++it){
-		delete (*it);
+		delete(*it);
 	}
 
 	return EXIT_SUCCESS;
