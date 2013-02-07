@@ -8,7 +8,6 @@ using std::for_each;
 
 GraphicEngine::GraphicEngine(GameContext &context) throw(ExceptionLoader)
 :Engine(context){
-	//Initilaize SDL
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_DOUBLEBUF | SDL_INIT_AUDIO) == -1){
 		throw ExceptionLoader("SDL_Init failed");
 	}

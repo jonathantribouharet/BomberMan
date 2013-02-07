@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "MapContext.h"
+
 #include "Util.h"
 #include "Collider.h"
 #include "SystemComponent.h"
@@ -21,6 +23,7 @@
 class ComponentContext{
 
 	public:
+		MapContext mapContext;
 		Collider collider;
 
 		SystemComponent<EntityComponent> components;	

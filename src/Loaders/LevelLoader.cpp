@@ -7,9 +7,12 @@
 
 using namespace std;
 
-#define MAP_COMPONENT_SIZE 40
-
 void LevelLoader::load(const string &path, ComponentContext &context, vector<InputComponent::KeyboardConfig> &inputs) throw(ExceptionLoader){
+	context.mapContext.cellWidth = 40;
+	context.mapContext.cellHeight = 40;
+	context.mapContext.bombermanWidth = 20;
+	context.mapContext.bombermanHeight = 30;
+
 	unsigned int current_number_players = 0;
 	ifstream file(path.c_str());
 	
@@ -25,7 +28,7 @@ void LevelLoader::load(const string &path, ComponentContext &context, vector<Inp
 		for(unsigned int index = 0; index < line.size(); ++index){
 			const char symbol = line[index];
 			
-			Position current_position = Position(index * MAP_COMPONENT_SIZE, (current_line - 1) * MAP_COMPONENT_SIZE);
+			Position current_position = Position(index * context.mapContext.cellWidth, (current_line - 1) * context.mapContext.cellHeight);
 
 			context.createFloor(current_position);
 			

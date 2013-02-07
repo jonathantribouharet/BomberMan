@@ -1,10 +1,6 @@
 #include "PlantBombAction.h"
 #include "ExploseBombAction.h"
 
-#define MAP_COMPONENT_SIZE 40
-#define BOMBERMAN_WIDTH 20
-#define BOMBERMAN_HEIGHT 30
-
 PlantBombAction::PlantBombAction(GameContext &_context, const EntityComponent::EntityId & _bomberman_id)
 :context(_context),
 bomberman_id(_bomberman_id){	
@@ -26,8 +22,8 @@ bool PlantBombAction::process(){
 	Position position = render->getPosition();
 
 	//Place bomb in center of square
-	position.setX(((unsigned int)(position.getX() + (BOMBERMAN_WIDTH / 2)) / MAP_COMPONENT_SIZE) * MAP_COMPONENT_SIZE);
-	position.setY(((unsigned int)(position.getY() + (BOMBERMAN_HEIGHT / 2)) / MAP_COMPONENT_SIZE) * MAP_COMPONENT_SIZE);
+	position.setX(((unsigned int)(position.getX() + (context.componentContext.mapContext.bombermanWidth / 2)) / context.componentContext.mapContext.cellWidth) * context.componentContext.mapContext.cellWidth);
+	position.setY(((unsigned int)(position.getY() + (context.componentContext.mapContext.bombermanHeight / 2)) / context.componentContext.mapContext.cellHeight) * context.componentContext.mapContext.cellHeight);
 	
 	//Avoid place 2 bombs in same time
 	for(SystemComponent<Bomb>::Components::const_iterator it_bomb = context.componentContext.bombs.components.begin();

@@ -1,8 +1,6 @@
 #include "CheckScopeBlastAction.h"
 #include <cmath>
 
-#define MAP_COMPONENT_SIZE 40
-
 CheckScopeBlastAction::CheckScopeBlastAction(ComponentContext &_context, const EntityComponent::EntityId & _blast_id)
 :context(_context),
 blast_id(_blast_id){	
@@ -19,7 +17,7 @@ bool CheckScopeBlastAction::process(){
 	unsigned int scope = context.blasts.components[blast_id]->getScope();
 	Position current_position = context.render_components.components[blast_id]->getPosition();
 
-	if(fabs(start_position.getX() - current_position.getX()) >= (scope * MAP_COMPONENT_SIZE) || fabs(start_position.getY() - current_position.getY()) >= (scope * MAP_COMPONENT_SIZE)){
+	if(fabs(start_position.getX() - current_position.getX()) >= (scope * context.mapContext.cellWidth) || fabs(start_position.getY() - current_position.getY()) >= (scope * context.mapContext.cellHeight)){
 		context.removeComponent(blast_id);
 		return true;
 	}
