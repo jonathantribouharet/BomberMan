@@ -1,5 +1,6 @@
 Bomberman
 =============
+[![Build Status](https://travis-ci.org/jonathantribouharet/BomberMan.png?branch=master)](https://travis-ci.org/jonathantribouharet/BomberMan)
 
 Basic bomberman written in C++
 

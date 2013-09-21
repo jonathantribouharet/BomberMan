@@ -8,17 +8,10 @@ find_package(SDL_mixer REQUIRED)
 
 if(APPLE)
 	message(STATUS "Mac OS detected")
-
-	include_directories("/Library/Frameworks/SDL.framework/headers"
-						"/Library/Frameworks/SDL_image.framework/headers"
-					    "/Library/Frameworks/SDL_ttf.framework/headers"
-					    "/Library/Frameworks/SDL_mixer.framework/headers")
-					    
+	
 	file(GLOB_RECURSE sources *.cpp *.m)
 else()
 	message(STATUS "Linux detected")
-
-	include_directories("/usr/include/SDL")
 
 	file(GLOB_RECURSE sources *.cpp)
 endif()
@@ -34,6 +27,11 @@ else()
 	set(CMAKE_CXX_FLAGS "-Wall -O3")
 	#set(CMAKE_CXX_FLAGS "-Wall -DDEBUG")
 endif()
+
+include_directories(${SDL_INCLUDE_DIR})
+include_directories(${SDLIMAGE_INCLUDE_DIR})
+include_directories(${SDLTTF_INCLUDE_DIR})
+include_directories(${SDLMIXER_INCLUDE_DIR})
 
 include_directories(Actions)
 include_directories(Collisions)
